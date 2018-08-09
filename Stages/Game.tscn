@@ -51,61 +51,52 @@ rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="Container" type="Container" parent="HUD" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD" index="0"]
 
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+custom_constants/margin_right = 20
+custom_constants/margin_top = 10
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 10
+_sections_unfolded = [ "custom_constants" ]
 
-[node name="CenterContainer" type="CenterContainer" parent="HUD/Container" index="0"]
+[node name="CenterContainer" type="CenterContainer" parent="HUD/MarginContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 124.0
+margin_bottom = 246.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-use_top_left = true
+use_top_left = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Container/CenterContainer" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -29.0
-margin_top = -25.0
-margin_right = 28.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-alignment = 0
-_sections_unfolded = [ "Margin" ]
-
-[node name="TextureRect" type="TextureRect" parent="HUD/Container/CenterContainer/VBoxContainer" index="0"]
+[node name="TextureRect" type="TextureRect" parent="HUD/MarginContainer/CenterContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 57.0
-margin_bottom = 49.0
-rect_min_size = Vector2( 57, 49 )
+margin_left = 23.0
+margin_top = 93.0
+margin_right = 80.0
+margin_bottom = 142.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -113,7 +104,6 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 6 )
-stretch_mode = 3
-_sections_unfolded = [ "Margin" ]
+stretch_mode = 0
 
 
