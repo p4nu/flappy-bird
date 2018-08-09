@@ -57,10 +57,12 @@ func get_state():
 class FlyingState:
 	
 	var bird
+	var animated_sprite
 	
 	func _init(bird):
 		# Called when this class gets instanced.
 		self.bird = bird
+		animated_sprite = bird.get_node("AnimatedSprite")
 		bird.gravity_scale = 0
 		bird.linear_velocity = Vector2(bird.move_speed, bird.linear_velocity.y)
 		bird.animation_player.play("Flying")
@@ -68,7 +70,11 @@ class FlyingState:
 		bird.set_process_unhandled_input(false)
 	
 	func exit():
+		bird.animation_player.stop()
+		bird.set_process(true)
+		bird.set_process_unhandled_input(true)
 		bird.gravity_scale = 1
+		animated_sprite.position = Vector2(0, 0)
 
 class FlappingState:
 	
@@ -77,7 +83,7 @@ class FlappingState:
 	func _init(bird):
 		# Called when this class gets instanced
 		self.bird = bird
-		bird.linear_velocity = Vector2(bird.move_speed, bird.linear_velocity.y)
+		flap()
 	
 	func _process(delta):
 		if bird.rotation_degrees < -30:

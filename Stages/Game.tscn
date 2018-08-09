@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Entities/Background/ParallaxBackground.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Entities/Bird/Bird.tscn" type="PackedScene" id=2]
@@ -7,7 +7,27 @@
 [ext_resource path="res://Entities/Spawners/SpawnerPipes.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Sprites/instructions.png" type="Texture" id=6]
 
-[node name="World" type="Node2D" index="0"]
+[sub_resource type="GDScript" id=1]
+
+resource_name = "InstructionsText"
+script/source = "extends TextureRect
+
+onready var bird = Utilities.get_main_node().get_node(\"Bird\")
+
+func _ready():
+	# Called when the node is added to the scene for the first time.
+	grab_focus()
+	pass
+
+func _input(event):
+	# Catches every Input event first, even before GUI.
+	if Input.is_action_just_pressed(\"click\"):
+		if bird:
+			bird.set_state(bird.STATE_FLAPPING)
+			hide()"
+_sections_unfolded = [ "Resource" ]
+
+[node name="World" type="Node2D"]
 
 [node name="ParallaxBackground" parent="." index="0" instance=ExtResource( 1 )]
 
@@ -87,7 +107,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 use_top_left = false
 
-[node name="TextureRect" type="TextureRect" parent="HUD/MarginContainer/CenterContainer" index="0"]
+[node name="InstructionsText" type="TextureRect" parent="HUD/MarginContainer/CenterContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -105,5 +125,6 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 6 )
 stretch_mode = 0
+script = SubResource( 1 )
 
 
