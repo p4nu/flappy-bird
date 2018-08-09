@@ -12,8 +12,10 @@ export (int) var move_speed = 50
 
 var current_state
 
+onready var animation_player = $AnimationPlayer
+
 func _ready():
-	set_state(STATE_FLAPPING)
+	set_state(STATE_FLYING)
 
 func _process(delta):
 	current_state._process(delta)
@@ -58,12 +60,10 @@ class FlyingState:
 	func _init(bird):
 		# Called when this class gets instanced.
 		self.bird = bird
-	
-	func _process(delta):
-		pass
-	
-	func _unhandled_input(event):
-		pass
+		bird.gravity_scale = 0
+		bird.animation_player.play("Flying")
+		bird.set_process(false)
+		bird.set_process_unhandled_input(false)
 
 class FlappingState:
 	
@@ -89,6 +89,7 @@ class FlappingState:
 	func flap():
 		bird.linear_velocity = Vector2(bird.linear_velocity.x, -bird.flap_force)
 		bird.angular_velocity = -3
+		bird.animation_player.play("Flapping")
 
 class FallingState:
 	
