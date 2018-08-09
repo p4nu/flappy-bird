@@ -12,6 +12,9 @@ onready var container = $Container
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
+	pass
+
+func start_spawning():
 	go_to_first_position()
 	
 	for i in range(AMOUNT_TO_FILL_VIEW):

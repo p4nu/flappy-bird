@@ -10,12 +10,12 @@ enum State {
 export (int) var flap_force = 150
 export (int) var move_speed = 50
 
-var current_state
-
 onready var animation_player = $AnimationPlayer
 
+var current_state
+
 func _ready():
-	set_state(STATE_FLYING)
+	current_state = FlyingState.new(self)
 
 func _process(delta):
 	current_state._process(delta)
@@ -24,7 +24,8 @@ func _unhandled_input(event):
 	current_state._unhandled_input(event)
 
 func set_state(new_state):
-#	current_state.exit()
+	if current_state.has_method("exit"):
+		current_state.exit()
 	
 	match new_state:
 		STATE_FLYING:
@@ -61,9 +62,13 @@ class FlyingState:
 		# Called when this class gets instanced.
 		self.bird = bird
 		bird.gravity_scale = 0
+		bird.linear_velocity = Vector2(bird.move_speed, bird.linear_velocity.y)
 		bird.animation_player.play("Flying")
 		bird.set_process(false)
 		bird.set_process_unhandled_input(false)
+	
+	func exit():
+		bird.gravity_scale = 1
 
 class FlappingState:
 	
