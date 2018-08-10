@@ -12,6 +12,3 @@ func _ready():
 func _process(delta):
 	position = Vector2(bird.position.x - x_offset, position.y)
 	align()
-
-func get_total_position():
-	return position.x - x_offset

@@ -27,7 +27,7 @@ func _input(event):
 			hide()"
 _sections_unfolded = [ "Resource" ]
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node2D" index="0"]
 
 [node name="ParallaxBackground" parent="." index="0" instance=ExtResource( 1 )]
 

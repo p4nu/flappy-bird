@@ -10,6 +10,10 @@ func _ready():
 	for i in range(AMOUNT_TO_FILL_GROUND):
 		spawn_and_move()
 
+func spawn_and_move():
+	spawn_ground()
+	go_to_next_position()
+
 func spawn_ground():
 	var new_ground = SCN_GROUND.instance()
 	new_ground.position = position
@@ -18,7 +22,3 @@ func spawn_ground():
 
 func go_to_next_position():
 	position = position + Vector2(GROUND_WIDTH, 0)
-
-func spawn_and_move():
-	spawn_ground()
-	go_to_next_position()
