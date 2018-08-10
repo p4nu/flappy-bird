@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+signal state_changed
+
 enum State {
 	STATE_FLYING,
 	STATE_FLAPPING,
@@ -39,6 +41,8 @@ func set_state(new_state):
 		_:
 			print("Bird.set_state() Error: State not found!")
 			get_tree().quit()
+	
+	emit_signal("state_changed")
 
 func get_state():
 	match current_state:

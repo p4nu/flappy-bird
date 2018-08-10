@@ -9,10 +9,11 @@ export var offset_x = 65
 export var offset_y = 55
 
 onready var container = $Container
+onready var camera = Utilities.get_main_node().get_node("Camera2D")
 
 func _ready():
-	# Called when the node is added to the scene for the first time.
-	pass
+	var bird = Utilities.get_main_node().get_node("Bird")
+	bird.connect("state_changed", self, "start_spawning", [], CONNECT_ONESHOT)
 
 func start_spawning():
 	go_to_first_position()
@@ -24,6 +25,9 @@ func go_to_first_position():
 	var first_position = Vector2()
 	first_position.x = get_viewport_rect().size.x + PIPE_WIDTH / 2
 	first_position.y = rand_range(offset_y, get_viewport_rect().size.y - GROUND_HEIGHT - offset_y)
+	
+	if camera:
+		first_position.x += camera.global_position.x
 	position = first_position
 
 func spawn_and_move():
