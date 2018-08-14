@@ -18,12 +18,17 @@ var current_state
 
 func _ready():
 	current_state = FlyingState.new(self)
+	connect("body_entered", self, "_on_body_enter")
+
+func _on_body_enter(other):
+	if current_state.has_method("_on_body_enter"):
+		current_state._on_body_enter(other)
 
 func _process(delta):
 	current_state._process(delta)
 
-func _unhandled_input(event):
-	current_state._unhandled_input(event)
+func _input(event):
+	current_state._input(event)
 
 func set_state(new_state):
 	if current_state.has_method("exit"):
@@ -71,12 +76,12 @@ class FlyingState:
 		bird.linear_velocity = Vector2(bird.move_speed, bird.linear_velocity.y)
 		bird.animation_player.play("Flying")
 		bird.set_process(false)
-		bird.set_process_unhandled_input(false)
+		bird.set_process_input(false)
 	
 	func exit():
 		bird.animation_player.stop()
 		bird.set_process(true)
-		bird.set_process_unhandled_input(true)
+		bird.set_process_input(true)
 		bird.gravity_scale = 1
 		animated_sprite.position = Vector2(0, 0)
 
@@ -97,7 +102,7 @@ class FlappingState:
 		if bird.linear_velocity.y > 0:
 			bird.angular_velocity = 1.5
 
-	func _unhandled_input(event):
+	func _input(event):
 		if Input.is_action_just_pressed("click"):
 			flap()
 
@@ -105,6 +110,13 @@ class FlappingState:
 		bird.linear_velocity = Vector2(bird.linear_velocity.x, -bird.flap_force)
 		bird.angular_velocity = -3
 		bird.animation_player.play("Flapping")
+	
+	func _on_body_enter(other):
+		if other.is_in_group(Game.GROUP_PIPES):
+			bird.set_state(STATE_FALLING)
+		elif other.is_in_group(Game.GROUP_GROUNDS):
+			bird.set_state(STATE_GROUNDED)
+		pass
 
 class FallingState:
 	
@@ -113,6 +125,16 @@ class FallingState:
 	func _init(bird):
 		# Called when this class gets instanced.
 		self.bird = bird
+		bird.set_process(false)
+		bird.set_process_input(false)
+		bird.linear_velocity = Vector2(0, 0)
+		bird.angular_velocity = 2
+		var first_collision = bird.get_colliding_bodies()[0]
+		bird.add_collision_exception_with(first_collision)
+	
+	func _on_body_enter(other):
+		if other.is_in_group(Game.GROUP_GROUNDS):
+			bird.set_state(bird.STATE_GROUNDED)
 
 class GroundedState:
 	
@@ -121,3 +143,7 @@ class GroundedState:
 	func _init(bird):
 		# Called when this class gets instanced.
 		self.bird = bird
+		bird.set_process(false)
+		bird.set_process_input(false)
+		bird.linear_velocity = Vector2(0, 0)
+		bird.angular_velocity = 0

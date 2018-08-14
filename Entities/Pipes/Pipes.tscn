@@ -14,7 +14,9 @@ extents = Vector2( 13, 80 )
 custom_solver_bias = 0.0
 extents = Vector2( 13, 80 )
 
-[node name="Pipes" type="StaticBody2D"]
+[node name="Pipes" type="StaticBody2D" groups=[
+"Pipes",
+]]
 
 z_index = -1
 input_pickable = false

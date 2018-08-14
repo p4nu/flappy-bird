@@ -9,22 +9,23 @@
 
 [sub_resource type="GDScript" id=1]
 
-resource_name = "InstructionsText"
-script/source = "extends TextureRect
+resource_name = "Button"
+script/source = "# Built-in script
+extends Button
 
 onready var bird = Utilities.get_main_node().get_node(\"Bird\")
+onready var instructions_text = get_node(\"../MarginContainer/CenterContainer/InstructionsText\")
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
-	grab_focus()
-	pass
+	connect(\"pressed\", self, \"_on_button_pressed\", [], CONNECT_ONESHOT)
 
-func _input(event):
-	# Catches every Input event first, even before GUI.
-	if Input.is_action_just_pressed(\"click\"):
-		if bird:
-			bird.set_state(bird.STATE_FLAPPING)
-			hide()"
+func _on_button_pressed():
+	if bird:
+		bird.set_state(bird.STATE_FLAPPING)
+	
+	instructions_text.hide()
+	hide()"
 _sections_unfolded = [ "Resource" ]
 
 [node name="World" type="Node2D" index="0"]
@@ -83,13 +84,33 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+custom_constants/margin_right = 0
+custom_constants/margin_top = 0
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 0
+_sections_unfolded = [ "custom_constants" ]
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/MarginContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 144.0
+margin_bottom = 256.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
 custom_constants/margin_right = 20
 custom_constants/margin_top = 10
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 10
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="CenterContainer" type="CenterContainer" parent="HUD/MarginContainer" index="0"]
+[node name="CenterContainer" type="CenterContainer" parent="HUD/MarginContainer/MarginContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -107,7 +128,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 use_top_left = false
 
-[node name="InstructionsText" type="TextureRect" parent="HUD/MarginContainer/CenterContainer" index="0"]
+[node name="InstructionsText" type="TextureRect" parent="HUD/MarginContainer/MarginContainer/CenterContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -125,6 +146,29 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 6 )
 stretch_mode = 0
+
+[node name="Button" type="Button" parent="HUD/MarginContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 144.0
+margin_bottom = 256.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+action_mode = 0
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
 script = SubResource( 1 )
 
 
